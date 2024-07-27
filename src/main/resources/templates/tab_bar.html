@@ -1,0 +1,17 @@
+<!-- templates/tab_bar.html -->
+<div th:fragment="tab-bar">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/employee}" th:classappend="${activeTab == 'home'} ? ' active' : ''">Employees</a>
+        </li>
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" th:href="@{/about}" th:classappend="${activeTab == 'about'} ? ' active' : ''">About</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" th:href="@{/services}" th:classappend="${activeTab == 'services'} ? ' active' : ''">Services</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" th:href="@{/contact}" th:classappend="${activeTab == 'contact'} ? ' active' : ''">Contact</a>-->
+<!--        </li>-->
+    </ul>
+</div>

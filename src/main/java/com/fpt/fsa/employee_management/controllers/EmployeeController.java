@@ -2,7 +2,6 @@ package com.fpt.fsa.employee_management.controllers;
 
 import com.fpt.fsa.employee_management.dtos.request.EmployeeCreateDto;
 import com.fpt.fsa.employee_management.dtos.request.EmployeeUpdateDto;
-import com.fpt.fsa.employee_management.dtos.response.EmployeeResponseDto;
 import com.fpt.fsa.employee_management.enums.EGender;
 import com.fpt.fsa.employee_management.enums.EStatus;
 import com.fpt.fsa.employee_management.services.EmployeeService;

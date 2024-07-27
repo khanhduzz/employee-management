@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: employee_management
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER-CLASS-NAME}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+application:
+  admin:
+    default:
+      username: ${ADMIN_DEFAULT_USERNAME}
+      password: ${ADMIN_DEFAULT_PASSWORD}

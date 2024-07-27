@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Employee</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-primary">Employees list</h1>
+    <hr/>
+    <a th:href="@{/employee/add}" class="btn btn-outline-info">Add</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center align-content-center">ID</th>
+            <th class="text-center align-content-center">Name</th>
+            <th class="text-center align-content-center">Date of birth</th>
+            <th class="text-center align-content-center">Gender</th>
+            <th class="text-center align-content-center">Address</th>
+            <th class="text-center align-content-center">Phone number</th>
+            <th class="text-center align-content-center">Department</th>
+            <th class="text-center align-content-center">Manage</th>
+        </tr>
+        </thead>
+        <tbody th:unless="${#lists.isEmpty(employees)}">
+        <tr th:each="e : ${employees}">
+            <td class="text-center align-content-center" th:text="${e.getId()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getFirstName() + ' ' + e.getLastName()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getDateOfBirth()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getGender()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getAddress()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getPhone()}"></td>
+            <td class="text-center align-content-center" th:text="${e.getDepartmentName()}"></td>
+            <td class="d-inline-flex justify-content-center gap-2 w-100">
+                <a class="btn btn-outline-info" th:href="@{/employee/{id}(id=${e.id})}">Edit</a>
+                <a class="btn btn-outline-danger" href="">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+        <tbody th:if="${#lists.isEmpty(employees)}">
+        <tr>
+            <td colspan="6" class="text-center">
+                No data
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

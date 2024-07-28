@@ -12,14 +12,14 @@
 <body>
 
 <div th:replace="~{header :: header}"></div>
-
+<p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
 <div class="container mb-2" style="min-height: 70vh">
     <div class="row">
         <div class="col-2">
             <div th:replace="~{tab_bar :: tab-bar}"></div>
         </div>
         <div class="col-10">
-            <div class="container">
+            <div class="container border p-3">
                 <h1 class="text-primary">Add employee</h1>
                 <hr/>
                 <form class="container" method="POST" th:action="@{/employee/add}" th:object="${employeeCreate}">
@@ -138,7 +138,7 @@
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <button class="btn btn-outline-info" type="button" onclick="history.back()">Back</button>
                         <button class="btn btn-outline-success" type="submit">Create</button>
-                        <button class="btn btn-outline-danger" type="reset">Cancel</button>
+                        <button class="btn btn-outline-danger" type="reset" id="resetButton">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -150,24 +150,32 @@
 
 <script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function() {
-        let currentStatus = 'ACTIVE';
-        let radioStatus = document.querySelectorAll('div[id="status"] > input[type="radio"][data-status]');
-        radioStatus.forEach(function(radio) {
-            if (radio.value === currentStatus) {
-                radio.checked = true;
-            }
-        });
+        function initializeForm() {
+            let currentStatus = 'ACTIVE';
+            let radioStatus = document.querySelectorAll('div[id="status"] > input[type="radio"][data-status]');
+            radioStatus.forEach(function (radio) {
+                if (radio.value === currentStatus) {
+                    radio.checked = true;
+                }
+            });
 
-        let currentGender = 'MALE';
-        let radioGender = document.querySelectorAll('div[id="gender"] > input[type="radio"][data-status]');
-        radioGender.forEach(function(radio) {
-            if (radio.value === currentGender) {
-                radio.checked = true;
-            }
-        });
+            let currentGender = 'MALE';
+            let radioGender = document.querySelectorAll('div[id="gender"] > input[type="radio"][data-status]');
+            radioGender.forEach(function (radio) {
+                if (radio.value === currentGender) {
+                    radio.checked = true;
+                }
+            });
 
-        let localDateString = new Date().toISOString().split('T')[0];
-        document.getElementById("dateOfBirth").value = new Date(localDateString).toISOString().split('T')[0];
+            let localDateString = new Date().toISOString().split('T')[0];
+            document.getElementById("dateOfBirth").value = new Date(localDateString).toISOString().split('T')[0];
+        }
+
+        initializeForm();
+
+        document.getElementById("resetButton").addEventListener("click", function() {
+            setTimeout(initializeForm, 0);
+        });
     });
 </script>
 

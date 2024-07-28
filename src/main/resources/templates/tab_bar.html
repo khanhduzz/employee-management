@@ -1,11 +1,15 @@
 <!-- templates/tab_bar.html -->
-<div th:fragment="tab-bar">
+<div th:fragment="tab-bar" class="mt-3">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/employee}" th:classappend="${activeTab == 'employee'} ? ' active' : ''">Employees</a>
+            <a class="btn btn-outline-success w-100 mb-2" th:href="@{/employee}" th:classappend="${activeTab == 'employee'} ? ' active' : ''">Employees list</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/employee/add}" th:classappend="${activeTab == 'add'} ? ' active' : ''">Add</a>
+            <a class="btn btn-outline-success w-100 mb-2" th:href="@{/employee/add}" th:classappend="${activeTab == 'add'} ? ' active' : ''">Add new employee</a>
         </li>
+        <li class="nav-item" th:if="${activeTab == 'edit'}">
+            <a class="btn btn-outline-success w-100" th:classappend="${activeTab == 'edit'} ? ' active' : ''">Edit employee</a>
+        </li>
+
     </ul>
 </div>

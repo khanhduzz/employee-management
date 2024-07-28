@@ -6,6 +6,7 @@ import com.fpt.fsa.employee_management.dtos.response.EmployeeResponseDto;
 import com.fpt.fsa.employee_management.entities.Account;
 import com.fpt.fsa.employee_management.entities.Employee;
 import com.fpt.fsa.employee_management.exceptions.AccountAlreadyExistException;
+import com.fpt.fsa.employee_management.exceptions.DeleteNotAllowException;
 import com.fpt.fsa.employee_management.exceptions.EmployeeNotFoundException;
 import com.fpt.fsa.employee_management.mapper.AccountMapper;
 import com.fpt.fsa.employee_management.mapper.EmployeeMapper;
@@ -13,6 +14,7 @@ import com.fpt.fsa.employee_management.repositories.AccountRepository;
 import com.fpt.fsa.employee_management.repositories.EmployeeRepository;
 import com.fpt.fsa.employee_management.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,15 +62,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee = employeeRepository.save(employee);
 
-        System.out.println(employee.toString());
         return employeeMapper.toEmployeeResponseDto(employee);
     }
 
     @Override
     public void deleteEmployee(Long id) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
         employeeRepository.findById(id)
-                .ifPresentOrElse(employeeRepository::delete,
-                        EmployeeNotFoundException::new);
+                .ifPresentOrElse(employee -> {
+                    if (employee.getAccount().getAccountName().equals(authentication.getName())) {
+                        throw new DeleteNotAllowException();
+                    }
+                }, () -> employeeRepository.deleteById(id));
     }
 
     @Override

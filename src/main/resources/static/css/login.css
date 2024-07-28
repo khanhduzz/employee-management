@@ -1,0 +1,30 @@
+:root {
+    --color-background: #dadfdb;
+    --color-secondary: #12ae32;
+}
+
+body {
+    background-color: var(--color-background);
+    margin: auto;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--color-secondary);
+    border: none;
+}
+
+.container-form {
+    height: auto;
+    background-color: #fff;
+    margin: auto;
+    border-radius: 5px;
+}
+
+.container-semi {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/employee")
@@ -27,11 +28,12 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ModelAndView index(@AuthenticationPrincipal User user) {
+    public ModelAndView index(@AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("employees", employeeService.getAllEmployees());
         modelAndView.setViewName("employee/index");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("activeTab", "employee");
         return modelAndView;
     }
 
@@ -42,6 +44,7 @@ public class EmployeeController {
         modelAndView.addObject("status", EStatus.values());
         modelAndView.addObject("employeeCreate", new EmployeeCreateDto());
         modelAndView.setViewName("employee/add");
+        modelAndView.addObject("activeTab", "add");
         return modelAndView;
     }
 
@@ -54,13 +57,15 @@ public class EmployeeController {
         modelAndView.addObject("employeeUpdate", new EmployeeUpdateDto());
         modelAndView.setViewName("employee/info");
         System.out.println(employeeService.getEmployee(id));
+        modelAndView.addObject("activeTab", "edit");
         return modelAndView;
     }
 
     @PostMapping("/add")
     public ModelAndView addEmployee(@ModelAttribute("employeeCreate")
                                     @Valid EmployeeCreateDto employeeCreateDto,
-                                    BindingResult result) {
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/add");
         if (result.hasErrors()) {
@@ -69,13 +74,15 @@ public class EmployeeController {
             return modelAndView;
         }
         employeeService.createEmployee(employeeCreateDto);
+        redirectAttributes.addFlashAttribute("message", "Employee added successfully");
         modelAndView.setViewName("redirect:/employee");
         return modelAndView;
     }
 
     @PostMapping("/{id}")
     public ModelAndView updateEmployee (@PathVariable("id") Long id, @ModelAttribute("employeeUpdate")
-                                        @Valid EmployeeUpdateDto employeeUpdateDto, BindingResult result) {
+                                        @Valid EmployeeUpdateDto employeeUpdateDto, BindingResult result,
+                                        RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/info");
         if (result.hasErrors()) {
@@ -85,14 +92,16 @@ public class EmployeeController {
             return modelAndView;
         }
         employeeService.updateEmployee(id, employeeUpdateDto);
+        redirectAttributes.addFlashAttribute("message", "Employee updated successfully");
         modelAndView.setViewName("redirect:/employee");
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
-    public ModelAndView deleteEmployee (@PathVariable("id") Long id) {
+    public ModelAndView deleteEmployee (@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         employeeService.deleteEmployee(id);
+        redirectAttributes.addFlashAttribute("message", "Employee deleted successfully");
         modelAndView.setViewName("redirect:/employee");
         return modelAndView;
     }

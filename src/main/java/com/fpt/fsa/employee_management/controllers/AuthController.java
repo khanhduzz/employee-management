@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping
@@ -29,13 +30,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@RequestBody @Valid Login request, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView login(@RequestBody @Valid Login request, BindingResult bindingResult,
+                              HttpSession session, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/employee/login");
         }
         AuthResponseDto response = authService.login(request.account(), request.password());
         session.setAttribute("response", response);
+        redirectAttributes.addFlashAttribute("message", "Login successfully");
         modelAndView.setViewName("redirect:/employee");
         return modelAndView;
     }

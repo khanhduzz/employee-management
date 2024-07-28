@@ -9,17 +9,17 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
     <script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
 </head>
-<body>
+<body class="">
 
 <div th:replace="~{header :: header}"></div>
-
-<div class="container" style="min-height: 70vh">
+<p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
+<div class="container" style="min-height: 68vh">
     <div class="row">
         <div class="col-2">
             <div th:replace="~{tab_bar :: tab-bar}"></div>
         </div>
         <div class="col-10">
-            <div class="container">
+            <div class="container border p-3">
                 <h1 class="text-primary">Employees list</h1>
                 <hr/>
                 <a th:href="@{/employee/add}" class="btn btn-outline-info">Add</a>

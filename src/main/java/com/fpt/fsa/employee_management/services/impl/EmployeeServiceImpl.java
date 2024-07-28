@@ -14,6 +14,9 @@ import com.fpt.fsa.employee_management.repositories.AccountRepository;
 import com.fpt.fsa.employee_management.repositories.EmployeeRepository;
 import com.fpt.fsa.employee_management.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,13 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        employeeRepository.findById(id)
-                .ifPresentOrElse(employee -> {
-                    if (employee.getAccount().getAccountName().equals(authentication.getName())) {
-                        throw new DeleteNotAllowException();
-                    }
-                }, () -> employeeRepository.deleteById(id));
+        employeeRepository.deleteById(id);
     }
 
     @Override
@@ -88,6 +85,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll()
                 .stream().map(employeeMapper::toEmployeeResponseDto)
                 .toList();
+    }
+
+    @Override
+    public Page<EmployeeResponseDto> getEmployeePageable(String firstName, String lastName, String email, String phoneNumber, String accountName, Pageable pageable) {
+        Specification<Employee> spec = Specification.where(null);
+        if (firstName != null) {
+            spec = spec.and(EmployeeSpecification.hasFirstName(firstName));
+        }
+        if (lastName != null) {
+            spec = spec.and(EmployeeSpecification.hasLastName(lastName));
+        }
+        if (email != null) {
+            spec = spec.and(EmployeeSpecification.hasEmail(email));
+        }
+        if (phoneNumber != null) {
+            spec = spec.and(EmployeeSpecification.hasPhoneNumber(phoneNumber));
+        }
+        if (accountName != null) {
+            spec = spec.and(EmployeeSpecification.hasAccount(accountName));
+        }
+        return employeeRepository.findAll(spec, pageable)
+                .map(employeeMapper::toEmployeeResponseDto);
     }
 
 }

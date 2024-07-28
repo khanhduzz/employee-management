@@ -2,11 +2,15 @@ package com.fpt.fsa.employee_management.controllers;
 
 import com.fpt.fsa.employee_management.dtos.request.EmployeeCreateDto;
 import com.fpt.fsa.employee_management.dtos.request.EmployeeUpdateDto;
+import com.fpt.fsa.employee_management.dtos.response.EmployeeResponseDto;
 import com.fpt.fsa.employee_management.enums.EGender;
 import com.fpt.fsa.employee_management.enums.EStatus;
 import com.fpt.fsa.employee_management.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,9 +33,24 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ModelAndView index(@AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
+    public ModelAndView index (
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String accountName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "asc") String sort,
+            @AuthenticationPrincipal User user
+    ) {
+        Sort orders = Sort.by(sort.equalsIgnoreCase("desc")
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC,
+                "id");
+        Page<EmployeeResponseDto> employeeResponses = employeeService.getEmployeePageable(firstName, lastName, email, phone, accountName, PageRequest.of(page, size, orders));
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("employees", employeeService.getAllEmployees());
+        modelAndView.addObject("employees", employeeResponses);
         modelAndView.setViewName("employee/index");
         modelAndView.addObject("user", user);
         modelAndView.addObject("activeTab", "employee");
@@ -97,7 +117,7 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ModelAndView deleteEmployee (@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         employeeService.deleteEmployee(id);

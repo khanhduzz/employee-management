@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -22,7 +23,12 @@
             <div class="container border p-3">
                 <h1 class="text-primary">Employees list</h1>
                 <hr/>
-                <a th:href="@{/employee/add}" class="btn btn-outline-info">Add</a>
+                <form class="container-fluid d-flex flex-row justify-content-end w-100" action="">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2 me-2" type="search" placeholder="This function is not available this time" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </form>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -39,7 +45,8 @@
                     <tbody th:unless="${#lists.isEmpty(employees)}">
                     <tr th:each="e : ${employees}">
                         <td class="text-center align-content-center" th:text="${e.getId()}"></td>
-                        <td class="text-center align-content-center" th:text="${e.getFirstName() + ' ' + e.getLastName()}"></td>
+                        <td class="text-center align-content-center"
+                            th:text="${e.getFirstName() + ' ' + e.getLastName()}"></td>
                         <td class="text-center align-content-center" th:text="${e.getDateOfBirth()}"></td>
                         <td class="text-center align-content-center" th:text="${e.getGender()}"></td>
                         <td class="text-center align-content-center" th:text="${e.getAddress()}"></td>
@@ -47,7 +54,12 @@
                         <td class="text-center align-content-center" th:text="${e.getDepartmentName()}"></td>
                         <td class="d-inline-flex justify-content-center gap-2 w-100">
                             <a class="btn btn-outline-info" th:href="@{/employee/{id}(id=${e.id})}">Edit</a>
-                            <a class="btn btn-outline-danger" href="">Delete</a>
+                            <button class="btn btn-outline-danger" th:href="@{/employee/delete/{id}(id=${e.id})}"
+                                    th:if="${e.getAccount().getAccountName() == username}" hidden>Delete
+                            </button>
+                            <button class="btn btn-outline-danger" th:href="@{/employee/delete/{id}(id=${e.id})}"
+                                    th:unless="${e.getAccount().getAccountName() == username}">Delete
+                            </button>
                         </td>
                     </tr>
                     </tbody>

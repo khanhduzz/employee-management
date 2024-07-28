@@ -1,17 +1,33 @@
 <!-- templates/tab_bar.html -->
+<!--<div th:fragment="tab-bar">-->
+<!--    <ul class="nav nav-tabs">-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link active" th:href="@{/employee}" th:classappend="${activeTab == 'home'} ? ' active' : ''">Employees</a>-->
+<!--        </li>-->
+<!--&lt;!&ndash;        <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="nav-link" th:href="@{/about}" th:classappend="${activeTab == 'about'} ? ' active' : ''">About</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="nav-link" th:href="@{/services}" th:classappend="${activeTab == 'services'} ? ' active' : ''">Services</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="nav-link" th:href="@{/contact}" th:classappend="${activeTab == 'contact'} ? ' active' : ''">Contact</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </li>&ndash;&gt;-->
+<!--    </ul>-->
+<!--</div>-->
 <div th:fragment="tab-bar">
-    <ul class="nav nav-tabs">
+    <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" th:href="@{/employee}" th:classappend="${activeTab == 'home'} ? ' active' : ''">Employees</a>
+            <a class="nav-link" th:href="@{/employee}" th:classappend="${activeTab == 'employee'} ? ' active' : ''">Employees</a>
         </li>
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" th:href="@{/about}" th:classappend="${activeTab == 'about'} ? ' active' : ''">About</a>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" th:href="@{/services}" th:classappend="${activeTab == 'services'} ? ' active' : ''">Services</a>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" th:href="@{/contact}" th:classappend="${activeTab == 'contact'} ? ' active' : ''">Contact</a>-->
-<!--        </li>-->
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/about}" th:classappend="${activeTab == 'about'} ? ' active' : ''">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/services}" th:classappend="${activeTab == 'services'} ? ' active' : ''">Services</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/contact}" th:classappend="${activeTab == 'contact'} ? ' active' : ''">Contact</a>
+        </li>
     </ul>
 </div>

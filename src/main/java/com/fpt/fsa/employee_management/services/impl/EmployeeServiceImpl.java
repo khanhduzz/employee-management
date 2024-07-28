@@ -13,6 +13,7 @@ import com.fpt.fsa.employee_management.repositories.AccountRepository;
 import com.fpt.fsa.employee_management.repositories.EmployeeRepository;
 import com.fpt.fsa.employee_management.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final AccountMapper accountMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
     public EmployeeResponseDto createEmployee(EmployeeCreateDto employeeCreateDto) {
@@ -38,6 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = employeeMapper.toEmployee(employeeCreateDto);
         account = accountMapper.toAccount(employeeCreateDto);
+        account.setPassword(passwordEncoder.encode(employeeCreateDto.getPassword()));
 
         employee.addAccount(account);
         employee = employeeRepository.save(employee);
@@ -52,6 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setAccount(accountMapper.updateAccount(employee.getAccount(), employeeUpdateDto));
         employee = employeeMapper.updateEmployee(employee, employeeUpdateDto);
+        employee.getAccount().setPassword(passwordEncoder.encode(employeeUpdateDto.getPassword()));
+
         employee = employeeRepository.save(employee);
 
         System.out.println(employee.toString());

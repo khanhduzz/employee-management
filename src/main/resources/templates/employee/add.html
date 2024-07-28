@@ -11,135 +11,142 @@
 </head>
 <body>
 
-<div th:replace="header :: header"></div>
+<div th:replace="~{header :: header}"></div>
 
-<div th:replace="tab_bar :: tab-bar"></div>
-
-<div class="container">
-    <h1 class="text-primary">Employees list</h1>
-    <hr/>
-    <form class="container" method="POST" th:action="@{/employee/add}" th:object="${employeeCreate}">
-        <div class="form-group">
-            <label for="firstName">First name</label>
-            <input class="form-control" type="text" id="firstName" th:field="*{firstName}" name="firstName">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
-            </div>
+<div class="container mb-2" style="min-height: 70vh">
+    <div class="row">
+        <div class="col-2">
+            <div th:replace="~{tab_bar :: tab-bar}"></div>
         </div>
-        <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input class="form-control" type="text" id="lastName" th:field="*{lastName}" name="lastName">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="dateOfBirth">Date of birth</label>
-            <input class="form-control" type="date" id="dateOfBirth" th:field="*{dateOfBirth}" name="dateOfBirth">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('dateOfBirth')}"
-                     th:errors="*{dateOfBirth}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Gender</label>
-            <div class="d-flex flex-row gap-2 ms-4">
-                <div th:each="gender, i : ${genders}">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" th:field="*{gender}" th:value="${gender.name()}"
-                               th:id="${gender.name()}">
-                        <label class="form-check-label" th:for="${gender.name()}" th:text="${gender.name()}"></label>
+        <div class="col-10">
+            <div class="container">
+                <h1 class="text-primary">Add employee</h1>
+                <hr/>
+                <form class="container" method="POST" th:action="@{/employee/add}" th:object="${employeeCreate}">
+                    <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input class="form-control" type="text" id="firstName" th:field="*{firstName}" name="firstName">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <div class="alert alert-warning" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone</label>
-            <input class="form-control" type="text" id="phone" th:field="*{phone}" name="phone">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="accountName">Account</label>
-            <input class="form-control" type="text" id="accountName" th:field="*{accountName}"
-                   name="accountName">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('accountName')}"
-                     th:errors="*{accountName}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input class="form-control" type="email" id="email" th:field="*{email}"
-                   name="email">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}"
-                     th:errors="*{email}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input class="form-control" type="password" id="password" th:field="*{password}"
-                   name="password">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}"
-                     th:errors="*{password}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="address">Address</label>
-            <input class="form-control" type="text" id="address" th:field="*{address}" name="address">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="departmentName">Department</label>
-            <input class="form-control" type="text" id="departmentName" th:field="*{departmentName}"
-                   name="departmentName">
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('departmentName')}"
-                     th:errors="*{departmentName}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="remark">Remark</label>
-            <textarea class="form-control" type="text" id="remark" th:field="*{remark}"
-                      name="remark"></textarea>
-            <div>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('remark')}"
-                     th:errors="*{remark}"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Status</label>
-            <div class="d-flex flex-row gap-2 ms-4">
-                <div th:each="s, i : ${status}">
-                    <div class="form-check d-flex flex-row">
-                        <input class="form-check-input" type="radio" th:field="*{status}" th:value="${s.name()}"
-                               th:id="${s.name()}">
-                        <label class="form-check-label" th:for="${s.name()}" th:text="${s.name()}"></label>
+                    <div class="form-group">
+                        <label for="lastName">Last name</label>
+                        <input class="form-control" type="text" id="lastName" th:field="*{lastName}" name="lastName">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <div class="alert alert-warning" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
-                </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of birth</label>
+                        <input class="form-control" type="date" id="dateOfBirth" th:field="*{dateOfBirth}" name="dateOfBirth">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('dateOfBirth')}"
+                                 th:errors="*{dateOfBirth}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="d-flex flex-row gap-2 ms-4">
+                            <div th:each="gender, i : ${genders}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" th:field="*{gender}" th:value="${gender.name()}"
+                                           th:id="${gender.name()}">
+                                    <label class="form-check-label" th:for="${gender.name()}" th:text="${gender.name()}"></label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input class="form-control" type="text" id="phone" th:field="*{phone}" name="phone">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountName">Account</label>
+                        <input class="form-control" type="text" id="accountName" th:field="*{accountName}"
+                               name="accountName">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('accountName')}"
+                                 th:errors="*{accountName}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" id="email" th:field="*{email}"
+                               name="email">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}"
+                                 th:errors="*{email}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" id="password" th:field="*{password}"
+                               name="password">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input class="form-control" type="text" id="address" th:field="*{address}" name="address">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="departmentName">Department</label>
+                        <input class="form-control" type="text" id="departmentName" th:field="*{departmentName}"
+                               name="departmentName">
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('departmentName')}"
+                                 th:errors="*{departmentName}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="remark">Remark</label>
+                        <textarea class="form-control" type="text" id="remark" th:field="*{remark}"
+                                  name="remark"></textarea>
+                        <div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('remark')}"
+                                 th:errors="*{remark}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <div class="d-flex flex-row gap-2 ms-4">
+                            <div th:each="s, i : ${status}">
+                                <div class="form-check d-flex flex-row">
+                                    <input class="form-check-input" type="radio" th:field="*{status}" th:value="${s.name()}"
+                                           th:id="${s.name()}">
+                                    <label class="form-check-label" th:for="${s.name()}" th:text="${s.name()}"></label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <button class="btn btn-outline-info" type="button" onclick="history.back()">Back</button>
+                        <button class="btn btn-outline-success" type="submit">Create</button>
+                        <button class="btn btn-outline-danger" type="reset">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <div class="d-flex justify-content-center align-items-center gap-2">
-            <button class="btn btn-outline-info" type="button" onclick="history.back()">Back</button>
-            <button class="btn btn-outline-success" type="submit">Create</button>
-            <button class="btn btn-outline-danger" type="reset">Cancel</button>
-        </div>
-    </form>
+    </div>
 </div>
 
-<div th:replace="footer :: footer"></div>
+<div th:replace="~{footer :: footer}"></div>
 
 </body>
 </html>

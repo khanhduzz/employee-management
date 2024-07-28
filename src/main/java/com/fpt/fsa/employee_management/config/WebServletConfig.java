@@ -1,11 +1,13 @@
 package com.fpt.fsa.employee_management.config;
 
+import com.fpt.fsa.employee_management.config.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,5 +55,11 @@ public class WebServletConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/employee").setViewName("employee/index");
+        registry.addViewController("/login").setViewName("employee/login");
+    }
+
+    @Override
+    public void addInterceptors (InterceptorRegistry registry) {
+        registry.addInterceptor(new AuthInterceptor());
     }
 }

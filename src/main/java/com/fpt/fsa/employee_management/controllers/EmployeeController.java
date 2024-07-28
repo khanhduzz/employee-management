@@ -7,6 +7,8 @@ import com.fpt.fsa.employee_management.enums.EStatus;
 import com.fpt.fsa.employee_management.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,10 +27,11 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView index(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("employees", employeeService.getAllEmployees());
         modelAndView.setViewName("employee/index");
+        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

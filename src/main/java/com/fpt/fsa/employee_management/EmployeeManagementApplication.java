@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -21,6 +22,7 @@ public class EmployeeManagementApplication implements CommandLineRunner {
         SpringApplication.run(EmployeeManagementApplication.class, args);
     }
 
+    private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
 
     @Value("${application.admin.default.username}")
@@ -35,7 +37,7 @@ public class EmployeeManagementApplication implements CommandLineRunner {
                 .email("james@gmail.com")
                 .accountName(accountName)
                 .status(EStatus.ACTIVE)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .build();
         Employee employee = Employee.builder()
                 .firstName("James")

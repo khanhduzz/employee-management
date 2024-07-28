@@ -49,9 +49,9 @@
                         <label>Gender</label>
                         <div class="d-flex flex-row gap-2 ms-4">
                             <div th:each="gender, i : ${genders}">
-                                <div class="form-check">
+                                <div class="form-check" id="gender">
                                     <input class="form-check-input" type="radio" th:field="*{gender}" th:value="${gender.name()}"
-                                           th:id="${gender.name()}">
+                                           th:id="${gender.name()}" data-status="${gender.name()}">
                                     <label class="form-check-label" th:for="${gender.name()}" th:text="${gender.name()}"></label>
                                 </div>
                             </div>
@@ -123,9 +123,9 @@
                         <label>Status</label>
                         <div class="d-flex flex-row gap-2 ms-4">
                             <div th:each="s, i : ${status}">
-                                <div class="form-check d-flex flex-row">
+                                <div class="form-check d-flex flex-row" id="status">
                                     <input class="form-check-input" type="radio" th:field="*{status}" th:value="${s.name()}"
-                                           th:id="${s.name()}">
+                                           th:id="${s.name()}" data-status="${s.name()}">
                                     <label class="form-check-label" th:for="${s.name()}" th:text="${s.name()}"></label>
                                 </div>
                             </div>
@@ -147,6 +147,29 @@
 </div>
 
 <div th:replace="~{footer :: footer}"></div>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentStatus = 'ACTIVE';
+        let radioStatus = document.querySelectorAll('div[id="status"] > input[type="radio"][data-status]');
+        radioStatus.forEach(function(radio) {
+            if (radio.value === currentStatus) {
+                radio.checked = true;
+            }
+        });
+
+        let currentGender = 'MALE';
+        let radioGender = document.querySelectorAll('div[id="gender"] > input[type="radio"][data-status]');
+        radioGender.forEach(function(radio) {
+            if (radio.value === currentGender) {
+                radio.checked = true;
+            }
+        });
+
+        let localDateString = new Date().toISOString().split('T')[0];
+        document.getElementById("dateOfBirth").value = new Date(localDateString).toISOString().split('T')[0];
+    });
+</script>
 
 </body>
 </html>

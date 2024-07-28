@@ -35,15 +35,14 @@ public class AuthController {
             return new ModelAndView("/employee/login");
         }
         AuthResponseDto response = authService.login(request.account(), request.password());
-        session.setAttribute("user", response);
-        System.out.println(response);
+        session.setAttribute("response", response);
         modelAndView.setViewName("redirect:/employee");
         return modelAndView;
     }
 
     @GetMapping("/logout")
     public String logout() {
-        return "/employee/index";
+        return "/employee/login";
     }
 
 }

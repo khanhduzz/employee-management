@@ -42,7 +42,7 @@ public class EmployeeUpdateDto {
 
     @NotNull(message = "Cannot null")
     @Enumerated(EnumType.STRING)
-    @EnumSubset(enumClass = EGender.class, anyOf = {"MALE", "FEMALE", "OTHER"})
+    @EnumSubset(enumClass = EGender.class, anyOf = {"MALE", "FEMALE", "OTHER"}, message = "Gender is not null")
     EGender gender;
 
     @NotNull(message = "Cannot null")
@@ -90,7 +90,7 @@ public class EmployeeUpdateDto {
 
     @NotNull(message = "Cannot null")
     @Enumerated(EnumType.STRING)
-    @EnumSubset(enumClass = EStatus.class, anyOf = {"ACTIVE", "NOT_ACTIVE"})
+    @EnumSubset(enumClass = EStatus.class, anyOf = {"ACTIVE", "NOT_ACTIVE"}, message = "Status is not null")
     EStatus status;
 
 }

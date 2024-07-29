@@ -61,7 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setAccount(accountMapper.updateAccount(employee.getAccount(), employeeUpdateDto));
         employee = employeeMapper.updateEmployee(employee, employeeUpdateDto);
-        employee.getAccount().setPassword(passwordEncoder.encode(employeeUpdateDto.getPassword()));
 
         employee = employeeRepository.save(employee);
 
@@ -69,8 +68,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        employeeRepository.findById(id)
+                .ifPresentOrElse(employee -> {
+                        if (employee.getAccount().getAccountName().equalsIgnoreCase(authentication.getName())) {
+                            throw new DeleteNotAllowException();
+                        } else {
+                            employeeRepository.delete(employee);
+                        }
+                    }
+                , DeleteNotAllowException::new);
     }
 
     @Override

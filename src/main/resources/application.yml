@@ -1,6 +1,10 @@
 spring:
   application:
     name: employee_management
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}

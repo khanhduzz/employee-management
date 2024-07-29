@@ -117,7 +117,7 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public ModelAndView deleteEmployee (@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         employeeService.deleteEmployee(id);

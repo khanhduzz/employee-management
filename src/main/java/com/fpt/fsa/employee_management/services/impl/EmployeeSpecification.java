@@ -7,6 +7,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public final class EmployeeSpecification {
 
+    private EmployeeSpecification() {
+    }
+
     public static Specification<Employee> hasFirstName (String firstName) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("firstName"), firstName);
     }

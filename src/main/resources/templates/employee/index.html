@@ -25,7 +25,8 @@
                 <hr/>
                 <form class="container-fluid d-flex flex-row justify-content-end w-100" action="">
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2 me-2" type="search" placeholder="This function is not available this time" aria-label="Search">
+                        <input class="form-control mr-sm-2 me-2" type="search"
+                               placeholder="This function is not available this time" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </form>
@@ -57,9 +58,20 @@
                             <button class="btn btn-outline-danger" th:href="@{/employee/delete/{id}(id=${e.id})}"
                                     th:if="${e.getAccount().getAccountName() == username}" hidden>Delete
                             </button>
-                            <button class="btn btn-outline-danger" th:href="@{/employee/delete/{id}(id=${e.id})}"
+                            <a class="btn btn-outline-danger" th:href="@{/employee/delete/{id}(id=${e.id})}"
                                     th:unless="${e.getAccount().getAccountName() == username}">Delete
-                            </button>
+                            </a>
+<!--                            <button class="btn btn-outline-danger"-->
+<!--                                    th:if="${e.getAccount().getAccountName() == username}"-->
+<!--                                    hidden-->
+<!--                                    onclick="deleteEmployee([[${e.id}]])">-->
+<!--                                Delete-->
+<!--                            </button>-->
+<!--                            <a class="btn btn-outline-danger"-->
+<!--                               th:unless="${e.getAccount().getAccountName() == username}"-->
+<!--                               th:onclick="deleteEmployee([[${e.id}]])">-->
+<!--                                Delete-->
+<!--                            </a>-->
                         </td>
                     </tr>
                     </tbody>
@@ -77,6 +89,20 @@
 </div>
 
 <div th:replace="~{footer :: footer}"></div>
-
+<script th:inline="javascript">
+    function deleteEmployee(id) {
+        console.log(id)
+        fetch(`/employee/delete/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Delete failed');
+                }
+            });
+    }
+</script>
 </body>
 </html>

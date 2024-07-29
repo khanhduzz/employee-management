@@ -82,12 +82,6 @@ public class EmployeeUpdateDto {
     @Size(max = 255, message = "Maximum length is 255")
     String email;
 
-    @NotBlank(message = "Cannot blank")
-    @NotEmpty(message = "Cannot empty")
-    @NotNull(message = "Cannot null")
-    @Size(max = 255, message = "Maximum length is 255")
-    String password;
-
     @NotNull(message = "Cannot null")
     @Enumerated(EnumType.STRING)
     @EnumSubset(enumClass = EStatus.class, anyOf = {"ACTIVE", "NOT_ACTIVE"}, message = "Status is not null")

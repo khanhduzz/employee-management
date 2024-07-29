@@ -40,7 +40,7 @@ public class EmployeeController {
             @RequestParam(required = false) String phone,
             @RequestParam(required = false) String accountName,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "1") int size,
             @RequestParam(required = false, value = "sort", defaultValue = "asc") String sort,
             @AuthenticationPrincipal User user
     ) {

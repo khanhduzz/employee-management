@@ -81,6 +81,29 @@
                     </tbody>
                 </table>
             </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!-- Previous Page Link -->
+                    <li class="page-item" th:classappend="${employees.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{|employee?page=${employees.pageable.previousOrFirst().pageNumber}|}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <li class="page-item" th:each="page : ${#numbers.sequence(1, employees.totalPages)}" th:classappend="${page == employees.pageable.pageNumber + 1} ? 'active'">
+                        <a class="page-link" th:href="@{|employee?page=${page - 1}|}">[[${page}]]</a>
+                    </li>
+
+                    <!-- Next Page Link -->
+                    <li class="page-item" th:classappend="${employees.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{|employee?page=${employees.pageable.next().pageNumber}|}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
 </div>

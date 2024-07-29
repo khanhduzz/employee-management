@@ -25,21 +25,22 @@
                 <h1 class="text-primary">Employees list</h1>
                 <hr/>
                 <!-- Search form -->
-                <form class="container-fluid d-flex flex-row justify-content-end w-100" action="">
+                <form id="searchForm" class="container-fluid d-flex flex-row justify-content-end w-100" action="">
                     <div class="form-inline d-inline-flex w-50 me-2">
-                        <input class="form-control mr-sm-2 me-2" type="search"
+                        <input id="searchInput" class="form-control mr-sm-2 me-2" type="search"
                                placeholder="Only pagination working at this time" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button id="searchButton" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </div>
                     <div class="form-group me-2">
                         <button class="btn btn-dark my-2 my-sm-0" type="button" disabled>Filter</button>
                     </div>
                     <div class="form-group me-2">
-                        <select class="form-select w-auto" id="filterSelect" aria-label="">
+                        <select id="filterSelect" class="form-select w-auto" aria-label="">
                             <option th:each="option : ${filters}" th:value="${option}" th:text="${option.toUpperCase()}"></option>
                         </select>
                     </div>
                 </form>
+                <!-- Content -->
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -92,6 +93,7 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Pagination -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <!-- Previous Page Link -->
@@ -142,9 +144,14 @@
     </div>
 </div>
 
+<div id="resultsContainer">
+    <!-- Content to be dynamically updated -->
+</div>
+
 <div th:replace="~{footer :: footer}"></div>
 
 <script th:inline="javascript">
+
     function showDeleteModal(employeeId) {
         document.getElementById('confirmDeleteButton').setAttribute('data-employee-id', employeeId);
         $('#deleteConfirmationModal').modal('show');
@@ -156,6 +163,57 @@
         deleteForm.action = '/employee/delete/' + employeeId;
         deleteForm.submit();
     });
+
+    <!-- Pagination listener -->
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchButton = document.getElementById('searchButton');
+        const searchForm = document.getElementById('searchForm');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        searchButton.addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value;
+            const filter = document.getElementById('filterSelect').value;
+            fetchResults(query, filter, 0);
+        });
+
+        document.querySelectorAll('.page-link-nav').forEach(pageLink => {
+            pageLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = e.target.getAttribute('data-page');
+                const query = document.getElementById('searchInput').value;
+                const filter = document.getElementById('filterSelect').value;
+                fetchResults(query, filter, page);
+            });
+        });
+
+        const fetchResults = (query, filter, page) => {
+            fetch(`/employee?${filter}=${query}&page=${page}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.text())
+                .then(data => {
+                    resultsContainer.innerHTML = data;
+                    attachPaginationEvents();
+                })
+                .catch(error => console.error('Error:', error));
+        };
+
+        const attachPaginationEvents = () => {
+            document.querySelectorAll('.page-link-nav').forEach(pageLink => {
+                pageLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.getAttribute('data-page');
+                    const query = document.getElementById('searchInput').value;
+                    const filter = document.getElementById('filterSelect').value;
+                    fetchResults(query, filter, page);
+                });
+            });
+        };
+    });
+
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

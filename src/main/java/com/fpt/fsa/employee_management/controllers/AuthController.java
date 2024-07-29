@@ -21,11 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     private final AuthService authService;
+    private static final String EMPLOYEE_LOGIN = "employee_login";
 
     @GetMapping({"/", "/login"})
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/employee/login");
+        modelAndView.setViewName(EMPLOYEE_LOGIN);
         return modelAndView;
     }
 
@@ -34,7 +35,7 @@ public class AuthController {
                               HttpSession session, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/employee/login");
+            return new ModelAndView(EMPLOYEE_LOGIN);
         }
         AuthResponseDto response = authService.login(request.account(), request.password());
         session.setAttribute("response", response);
@@ -45,7 +46,7 @@ public class AuthController {
 
     @GetMapping("/logout")
     public String logout() {
-        return "/employee/login";
+        return EMPLOYEE_LOGIN;
     }
 
 }

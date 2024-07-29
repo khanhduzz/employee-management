@@ -98,23 +98,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeResponseDto> getEmployeePageable(String firstName, String lastName, String email, String phoneNumber, String accountName, Pageable pageable) {
-        Specification<Employee> spec = Specification.where(null);
-        if (firstName != null) {
-            spec = spec.and(EmployeeSpecification.hasFirstName(firstName));
-        }
-        if (lastName != null) {
-            spec = spec.and(EmployeeSpecification.hasLastName(lastName));
-        }
-        if (email != null) {
-            spec = spec.and(EmployeeSpecification.hasEmail(email));
-        }
-        if (phoneNumber != null) {
-            spec = spec.and(EmployeeSpecification.hasPhoneNumber(phoneNumber));
-        }
-        if (accountName != null) {
-            spec = spec.and(EmployeeSpecification.hasAccount(accountName));
-        }
-        return employeeRepository.findAll(spec, pageable)
+        return employeeRepository.findAll(
+                Specification.where(EmployeeSpecification.hasFirstName(firstName))
+                        .and(EmployeeSpecification.hasLastName(lastName))
+                        .and(EmployeeSpecification.hasEmail(email))
+                        .and(EmployeeSpecification.hasPhoneNumber(phoneNumber))
+                        .and(EmployeeSpecification.hasAccount(accountName)),
+                pageable)
                 .map(employeeMapper::toEmployeeResponseDto);
     }
 

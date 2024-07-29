@@ -24,8 +24,10 @@ public final class EmployeeSpecification {
 
     public static Specification<Employee> hasEmail (String email) {
         String lowerCaseName = email == null ? "": email.trim().toLowerCase();
-        return (root, query, criteriaBuilder)
-                -> criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + lowerCaseName + "%");
+        return (root, query, criteriaBuilder) -> {
+            Join<Employee, Account> accountJoin = root.join("account");
+            return criteriaBuilder.like(criteriaBuilder.lower(accountJoin.get("email")), "%" + lowerCaseName + "%");
+        };
     }
 
     public static Specification<Employee> hasPhoneNumber (String phoneNumber) {

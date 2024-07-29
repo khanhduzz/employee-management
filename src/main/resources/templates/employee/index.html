@@ -25,7 +25,8 @@
                 <h1 class="text-primary">Employees list</h1>
                 <hr/>
                 <!-- Search form -->
-                <form id="searchForm" class="container-fluid d-flex flex-row justify-content-end w-100" action="">
+                <form id="searchForm" class="container-fluid d-flex flex-row justify-content-end w-100" method="get"
+                      th:action="@{/employee}">
                     <div class="form-inline d-inline-flex w-50 me-2">
                         <input id="searchInput" class="form-control mr-sm-2 me-2" type="search"
                                placeholder="Only pagination working at this time" aria-label="Search">
@@ -106,7 +107,7 @@
                     </li>
 
                     <!-- Page Numbers -->
-                    <li class="page-item" th:each="page : ${#numbers.sequence(1, employees.totalPages)}"
+                    <li class="page-item" th:each="page : ${#numbers.sequence(1, (employees.totalPages == 0) ? 1 : employees.totalPages)}"
                         th:classappend="${page == employees.pageable.pageNumber + 1} ? 'active'">
                         <a class="page-link" th:href="@{|employee?page=${page - 1}|}">[[${page}]]</a>
                     </li>
@@ -170,7 +171,8 @@
         const searchForm = document.getElementById('searchForm');
         const resultsContainer = document.getElementById('resultsContainer');
 
-        searchButton.addEventListener('click', () => {
+        searchButton.addEventListener('click', (e) => {
+            e.preventDefault();
             const query = document.getElementById('searchInput').value;
             const filter = document.getElementById('filterSelect').value;
             fetchResults(query, filter, 0);
@@ -187,18 +189,8 @@
         });
 
         const fetchResults = (query, filter, page) => {
-            fetch(`/employee?${filter}=${query}&page=${page}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.text())
-                .then(data => {
-                    resultsContainer.innerHTML = data;
-                    attachPaginationEvents();
-                })
-                .catch(error => console.error('Error:', error));
+            const url = `/employee?${filter}=${query}&page=${page}`;
+            window.location.href = url;
         };
 
         const attachPaginationEvents = () => {

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     private final AuthService authService;
-    private static final String EMPLOYEE_LOGIN = "employee_login";
+    private static final String EMPLOYEE_LOGIN = "employee/login";
 
     @GetMapping({"/", "/login"})
     public ModelAndView login() {

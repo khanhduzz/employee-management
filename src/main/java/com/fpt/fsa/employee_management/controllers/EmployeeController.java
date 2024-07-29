@@ -15,7 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +24,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private static final String ACTIVE_TAB = "activeTab";
+    private static final String EMPLOYEE = "employee";
+    private static final String MESSAGE = "message";
+    private static final String GENDER = "genders";
+    private static final String STATUS = "status";
+    private static final String REDIRECT_EMPLOYEE = "redirect:/employee";
 
     @GetMapping
     public ModelAndView index (
@@ -45,39 +53,41 @@ public class EmployeeController {
             @AuthenticationPrincipal User user
     ) {
         Sort orders = Sort.by(sort.equalsIgnoreCase("desc")
-                        ? Sort.Direction.DESC
-                        : Sort.Direction.ASC,
-                "id");
+                        ? Sort.Direction.DESC : Sort.Direction.ASC, "id");
         Page<EmployeeResponseDto> employeeResponses = employeeService.getEmployeePageable(firstName, lastName, email, phone, accountName, PageRequest.of(page, size, orders));
+        List<String> filters = new ArrayList<>(List.of("firstName", "lastName", "email", "phone", "accountName"));
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("employees", employeeResponses);
-        modelAndView.setViewName("employee/index");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("activeTab", "employee");
+        modelAndView.addObject(ACTIVE_TAB, EMPLOYEE);
+        modelAndView.addObject("filters", filters);
+
+        modelAndView.setViewName("employee/index");
         return modelAndView;
     }
 
     @GetMapping("/add")
     public ModelAndView addEmployee() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("genders", EGender.values());
-        modelAndView.addObject("status", EStatus.values());
+        modelAndView.addObject(GENDER, EGender.values());
+        modelAndView.addObject(STATUS, EStatus.values());
         modelAndView.addObject("employeeCreate", new EmployeeCreateDto());
         modelAndView.setViewName("employee/add");
-        modelAndView.addObject("activeTab", "add");
+        modelAndView.addObject(ACTIVE_TAB, "add");
         return modelAndView;
     }
 
     @GetMapping("/{id}")
     public ModelAndView getEmployee(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("genders", EGender.values());
-        modelAndView.addObject("status", EStatus.values());
-        modelAndView.addObject("employee", employeeService.getEmployee(id));
+        modelAndView.addObject(GENDER, EGender.values());
+        modelAndView.addObject(STATUS, EStatus.values());
+        modelAndView.addObject(EMPLOYEE, employeeService.getEmployee(id));
         modelAndView.addObject("employeeUpdate", new EmployeeUpdateDto());
         modelAndView.setViewName("employee/info");
         System.out.println(employeeService.getEmployee(id));
-        modelAndView.addObject("activeTab", "edit");
+        modelAndView.addObject(ACTIVE_TAB, "edit");
         return modelAndView;
     }
 
@@ -89,13 +99,13 @@ public class EmployeeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/add");
         if (result.hasErrors()) {
-            modelAndView.addObject("genders", EGender.values());
-            modelAndView.addObject("status", EStatus.values());
+            modelAndView.addObject(GENDER, EGender.values());
+            modelAndView.addObject(STATUS, EStatus.values());
             return modelAndView;
         }
         employeeService.createEmployee(employeeCreateDto);
-        redirectAttributes.addFlashAttribute("message", "Employee added successfully");
-        modelAndView.setViewName("redirect:/employee");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Employee added successfully");
+        modelAndView.setViewName(REDIRECT_EMPLOYEE);
         return modelAndView;
     }
 
@@ -106,14 +116,14 @@ public class EmployeeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employee/info");
         if (result.hasErrors()) {
-            modelAndView.addObject("genders", EGender.values());
-            modelAndView.addObject("status", EStatus.values());
-            modelAndView.addObject("employee", employeeService.getEmployee(id));
+            modelAndView.addObject(GENDER, EGender.values());
+            modelAndView.addObject(STATUS, EStatus.values());
+            modelAndView.addObject(EMPLOYEE, employeeService.getEmployee(id));
             return modelAndView;
         }
         employeeService.updateEmployee(id, employeeUpdateDto);
-        redirectAttributes.addFlashAttribute("message", "Employee updated successfully");
-        modelAndView.setViewName("redirect:/employee");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Employee updated successfully");
+        modelAndView.setViewName(REDIRECT_EMPLOYEE);
         return modelAndView;
     }
 
@@ -121,8 +131,8 @@ public class EmployeeController {
     public ModelAndView deleteEmployee (@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
         employeeService.deleteEmployee(id);
-        redirectAttributes.addFlashAttribute("message", "Employee deleted successfully");
-        modelAndView.setViewName("redirect:/employee");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Employee deleted successfully");
+        modelAndView.setViewName(REDIRECT_EMPLOYEE);
         return modelAndView;
     }
 }

@@ -48,16 +48,10 @@ public class EmployeeController {
             @RequestParam(required = false) String phone,
             @RequestParam(required = false) String accountName,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "1") int size,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false, value = "sort", defaultValue = "asc") String sort,
             @AuthenticationPrincipal User user
     ) {
-        System.out.println("Received parameters:");
-        System.out.println("First Name: " + firstName);
-        System.out.println("Last Name: " + lastName);
-        System.out.println("Email: " + email);
-        System.out.println("Phone: " + phone);
-        System.out.println("Account Name: " + accountName);
 
         Sort orders = Sort.by(sort.equalsIgnoreCase("desc")
                         ? Sort.Direction.DESC : Sort.Direction.ASC, "id");

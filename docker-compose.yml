@@ -1,7 +1,7 @@
 services:
   employee-api:
-    container_name: employee-management
-    image: employ/employ:1.0.0
+    container_name: employee-api
+    image: ${DOCKER_USERNAME}/employee_management:1.0.0
     ports:
       - 8888:8888
     networks:

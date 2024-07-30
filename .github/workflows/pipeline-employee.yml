@@ -107,7 +107,7 @@ jobs:
           file: Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/employee-api:${{ steps.extract_version.output.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/employee-api:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/employee-management:${{ steps.extract_version.output.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/employee-api:latest
           build-args: |
             PROFILE=dev
             APP_VERSION=${{ steps.extract_version.output.VERSION }}

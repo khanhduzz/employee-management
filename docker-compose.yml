@@ -1,0 +1,11 @@
+services:
+  employee-api:
+    container_name: employee-api
+    image: employ/employ:1.0.0
+    ports:
+      - 8888:8888
+    networks:
+      - spring-demo
+networks:
+  spring-demo:
+    driver: bridge

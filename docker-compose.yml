@@ -1,6 +1,6 @@
 services:
   employee-api:
-    container_name: employee-api
+    container_name: employee-management
     image: employ/employ:1.0.0
     ports:
       - 8888:8888

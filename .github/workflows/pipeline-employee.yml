@@ -107,7 +107,8 @@ jobs:
           file: Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/employee_management:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/employee-management:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/employee_management:${{ steps.extract_version.outputs.VERSION }}
+#          ,${{ secrets.DOCKERHUB_USERNAME }}/employee-management:latest
           build-args: |
             PROFILE=dev
             APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
@@ -117,6 +118,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-image]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Create deployment folder
         run: mkdir -p ci-cd
 

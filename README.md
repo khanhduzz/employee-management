@@ -4,7 +4,7 @@
 This project is an Employee Management System built using Spring MVC, Thymeleaf, Spring Security, and Maven. It manages employee information and their associated accounts.
 
 ## Key Features
-- Employee management (CRUD operations)
+- Employee management (CRUD operations, Pagination and Filter)
 - Account management (Linked to employee)
 - User authentication and authorization using Spring Security
 - User-friendly interface built with Thymeleaf
@@ -15,10 +15,13 @@ This project is an Employee Management System built using Spring MVC, Thymeleaf,
 - Spring Security
 - Maven
 - H2 database
+- CI/CD with GitHub Action
+- Docker image and DockerHub
 
 ## Project Structure
 - **src/main/java**: Contains Java source code for controllers, services, repositories, entities, and other components.
 - **src/main/resources**: Contains configuration files (application.properties or application.yml), templates (Thymeleaf), and other resources.
+- .github/workflows: Contains configuration files for GitHub pipelines and ci-cd
 
 ## Database Setup
 1. Create a database with the specified name and schema.
@@ -39,10 +42,9 @@ Specify necessary dependencies in the `pom.xml` file, including Spring MVC, Thym
 - Configure requests and authorization in Spring Security configuration.
 - Implement authentication and authorization logic.
 
-## Additional Notes
-- Provide detailed instructions for database setup and configuration.
-- Include information about error handling and logging.
-- Document any specific requirements or assumptions.
+## CI-CD
+- Pipeline for check maven build project: merge on main
+- Pipeline for build docker image and push to DockerHub: merge to ci-cd branch
 
 ## Contributing
 If you want to contribute to this project, please fork the repository and submit a pull request.

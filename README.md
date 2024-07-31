@@ -3,6 +3,12 @@
 ## Overview
 This project is an Employee Management System built using Spring MVC, Thymeleaf, Spring Security, and Maven. It manages employee information and their associated accounts.
 
+## ER Model
+<img width="1131" alt="Screenshot 2024-07-31 at 12 34 42" src="https://github.com/user-attachments/assets/8e8365b8-0e6e-41c3-bfaf-7587c987603f">
+
+## Use cases
+<img width="964" alt="Screenshot 2024-07-31 at 12 34 53" src="https://github.com/user-attachments/assets/ce03e32d-0080-4535-b47e-ff3be688565d">
+
 ## Key Features
 - Employee management (CRUD operations, Pagination and Filter)
 - Account management (Linked to employee)
@@ -10,13 +16,13 @@ This project is an Employee Management System built using Spring MVC, Thymeleaf,
 - User-friendly interface built with Thymeleaf
 
 ## Technology Stack
-- Spring MVC
-- Thymeleaf
-- Spring Security
-- Maven
-- H2 database
-- CI/CD with GitHub Action
-- Docker image and DockerHub
+- **Spring MVC**: [Spring MVC](https://spring.io/projects/spring-mvc)
+- **Thymeleaf**: [Thymeleaf](https://www.thymeleaf.org/)
+- **Spring Security**: [Spring Security](https://spring.io/projects/spring-security)
+- **Maven**: [Apache Maven](https://maven.apache.org/)
+- **H2 database**: [H2 Database](https://www.h2database.com/html/main.html)
+- **CI/CD with GitHub Actions**: [GitHub Actions](https://github.com/features/actions)
+- **Docker image and DockerHub**: [Docker Hub](https://hub.docker.com/)
 
 ## Project Structure
 - **src/main/java**: Contains Java source code for controllers, services, repositories, entities, and other components.

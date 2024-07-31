@@ -1,7 +1,9 @@
 services:
   employee-api:
     container_name: employee-api
-    image: khanhdu01/employee_management:1.0.0
+    image: ${DOCKER_USERNAME}/employee_management:1.0.0
+    env_file:
+      - .env
     ports:
       - 8888:8888
     networks:

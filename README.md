@@ -62,7 +62,3 @@ MIT license
 Provide contact information for project inquiries or support.
 
 ---
-
-Remember to replace the placeholders with specific details about your project, such as database name, technology versions, and project structure.
-
-By following these guidelines, you can create a comprehensive and informative README file for your Employee Management project.

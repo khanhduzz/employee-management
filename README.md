@@ -5,7 +5,7 @@ This project is an Employee Management System built using Spring MVC, Thymeleaf,
 
 ## Key Features
 - Employee management (CRUD operations)
-- Account management (linked to employee)
+- Account management (Linked to employee)
 - User authentication and authorization using Spring Security
 - User-friendly interface built with Thymeleaf
 

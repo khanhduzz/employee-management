@@ -38,6 +38,8 @@ public class EmployeeController {
     private static final String MESSAGE = "message";
     private static final String GENDER = "genders";
     private static final String STATUS = "status";
+    private static final String CURR_SEARCH = "currentSearch";
+    private static final String CURR_FILTER = "currentFilter";
     private static final String REDIRECT_EMPLOYEE = "redirect:/employee";
 
     @GetMapping
@@ -63,6 +65,32 @@ public class EmployeeController {
         modelAndView.addObject("user", user);
         modelAndView.addObject(ACTIVE_TAB, EMPLOYEE);
         modelAndView.addObject("filters", filters);
+
+        // Add the current filter and search values to the model
+        if (firstName != null) {
+            modelAndView.addObject(CURR_SEARCH, "firstName");
+            modelAndView.addObject(CURR_FILTER, firstName);
+        }
+
+        if (lastName != null) {
+            modelAndView.addObject(CURR_SEARCH, "lastName");
+            modelAndView.addObject(CURR_FILTER, lastName);
+        }
+
+        if (email != null) {
+            modelAndView.addObject(CURR_SEARCH, "email");
+            modelAndView.addObject(CURR_FILTER, email);
+        }
+
+        if (phone != null) {
+            modelAndView.addObject(CURR_SEARCH, "phone");
+            modelAndView.addObject(CURR_FILTER, phone);
+        }
+
+        if (accountName != null) {
+            modelAndView.addObject(CURR_SEARCH, "accountName");
+            modelAndView.addObject(CURR_FILTER, accountName);
+        }
 
         modelAndView.setViewName("employee/index");
         return modelAndView;

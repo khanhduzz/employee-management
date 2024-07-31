@@ -1,11 +1,24 @@
 services:
-  employee-api:
-    container_name: employee-api
+  employee-api-up:
+    container_name: employee-api-up
     image: khanhdu01/employee_management:1.0.0
     ports:
       - 8888:8888
     networks:
       - spring-demo
+    profiles:
+      - default
+
+  employee-api:
+    container_name: employee-api
+    image: employee/employee:1.0.0
+    ports:
+      - 8888:8888
+    networks:
+      - spring-demo
+    profiles:
+      - development
+
 networks:
   spring-demo:
     driver: bridge
